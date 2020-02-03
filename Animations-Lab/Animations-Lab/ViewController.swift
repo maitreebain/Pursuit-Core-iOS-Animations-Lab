@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum AnimationStyles: Int {
+    case
+}
+
 class ViewController: UIViewController {
     
     lazy var blueSquare: UIView = {
@@ -109,6 +113,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         configureConstraints()
+        animationPicker.delegate = self
+        animationPicker.dataSource = self
     }
     
     @IBAction func stepperButtonPressed(_ stepper: UIStepper){
@@ -262,4 +268,24 @@ class ViewController: UIViewController {
     }
 }
 
-
+extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return AnimationStyles.count
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return AnimationStyles[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let oneStyle = AnimationStyles[row]
+        currentStyle = oneStyle
+        
+        
+    }
+    
+}
