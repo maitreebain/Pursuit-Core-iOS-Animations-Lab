@@ -39,6 +39,11 @@ class ViewController: UIViewController {
     var animationValue: Double = 0.3
     var movementValue: Double = 0.0
     
+    lazy var animationPicker: UIPickerView = {
+        let pickerView = UIPickerView()
+        return pickerView
+    }()
+    
     lazy var buttonStackView: UIStackView = {
        let buttonStack = UIStackView()
         buttonStack.axis = .horizontal
@@ -158,6 +163,7 @@ class ViewController: UIViewController {
         view.addSubview(buttonStackView)
         view.addSubview(animationStepper)
         view.addSubview(moveStepper)
+        view.addSubview(animationPicker)
     }
     
     private func addStackViewSubviews() {
@@ -170,6 +176,7 @@ class ViewController: UIViewController {
     private func configureConstraints() {
         constrainAnimationStepper()
         constrainMovementStepper()
+        constrainAnimationPicker()
         constrainBlueSquare()
         constrainLeftButton()
         constraintRightButton()
@@ -192,6 +199,15 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             moveStepper.topAnchor.constraint(equalTo: animationStepper.topAnchor, constant: 80),
             moveStepper.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func constrainAnimationPicker() {
+        animationPicker.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            animationPicker.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor, constant: 80),
+            animationPicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            animationPicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 20)
         ])
     }
     
