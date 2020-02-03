@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         buttonStack.alignment = .center
         buttonStack.distribution = .equalSpacing
         buttonStack.spacing = 30
+        //buttonStack.backgroundColor = .red
         return buttonStack
     }()
     
@@ -147,19 +148,20 @@ class ViewController: UIViewController {
         upButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         upButton.widthAnchor.constraint(equalToConstant: 180).isActive = true
         upButton.trailingAnchor.constraint(equalTo: buttonStackView.trailingAnchor).isActive = true
+        upButton.bottomAnchor.constraint(equalTo: buttonStackView.bottomAnchor).isActive = true
     }
     
     private func constrainDownButton() {
         downButton.translatesAutoresizingMaskIntoConstraints = false
         downButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         downButton.widthAnchor.constraint(equalToConstant: 180).isActive = true
+        downButton.bottomAnchor.constraint(equalTo: buttonStackView.bottomAnchor).isActive = true
     }
     
     private func constrainLeftButton() {
         leftButton.translatesAutoresizingMaskIntoConstraints = false
         leftButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         leftButton.widthAnchor.constraint(equalToConstant: 180).isActive = true
-        leftButton.leadingAnchor.constraint(equalTo: buttonStackView.leadingAnchor).isActive = true
         leftButton.bottomAnchor.constraint(equalTo: downButton.topAnchor, constant: -8).isActive = true
     }
     
