@@ -26,7 +26,18 @@ class ViewController: UIViewController {
         return stepper
     }()
     
+    lazy var moveStepper: UIStepper = {
+        let stepper = UIStepper()
+        stepper.minimumValue = 0.0
+        stepper.maximumValue = 400.0
+        stepper.value = 50.0
+        stepper.stepValue = 20.0
+        stepper.addTarget(self, action: #selector(moveStepperButtonPressed(_:)), for: .touchUpInside)
+        return stepper
+    }()
+    
     var animationValue: Double = 0.3
+    var movementValue: Double = 0.0
     
     lazy var buttonStackView: UIStackView = {
        let buttonStack = UIStackView()
@@ -99,9 +110,13 @@ class ViewController: UIViewController {
         animationValue = stepper.value
     }
     
+    @IBAction func moveStepperButtonPressed(_ stepper: UIStepper){
+        movementValue = stepper.value
+    }
+    
     @IBAction func animateSquareLeft(sender: UIButton) {
         let oldOffet = blueSquareCenterXConstraint.constant
-        blueSquareCenterXConstraint.constant = oldOffet + 50
+        blueSquareCenterXConstraint.constant = oldOffet + CGFloat(movementValue)
         UIView.animate(withDuration: animationValue) {
             self.view.layoutIfNeeded()
         }
@@ -110,7 +125,7 @@ class ViewController: UIViewController {
     
     @IBAction func animateSquareRight(sender: UIButton) {
         let oldOffet = blueSquareCenterXConstraint.constant
-        blueSquareCenterXConstraint.constant = oldOffet - 50
+        blueSquareCenterXConstraint.constant = oldOffet - CGFloat(movementValue)
         UIView.animate(withDuration: animationValue) {
             self.view.layoutIfNeeded()
         }
@@ -119,20 +134,21 @@ class ViewController: UIViewController {
     
     @IBAction func animateSquareUp(sender: UIButton) {
         let oldOffset = blueSquareCenterYConstraint.constant
-        blueSquareCenterYConstraint.constant = oldOffset - 150
+        blueSquareCenterYConstraint.constant = oldOffset - CGFloat(movementValue)
         UIView.animate(withDuration: animationValue) { [unowned self] in
             self.view.layoutIfNeeded()
         }
+                print(movementValue)
     }
     
     @IBAction func animateSquareDown(sender: UIButton) {
         let oldOffet = blueSquareCenterYConstraint.constant
-        blueSquareCenterYConstraint.constant = oldOffet + 150
+        blueSquareCenterYConstraint.constant = oldOffet + CGFloat(movementValue)
         UIView.animate(withDuration: animationValue) { [unowned self] in
             self.view.layoutIfNeeded()
         }
         
-        print("Down")
+        print(movementValue)
 
     }
     
@@ -141,6 +157,7 @@ class ViewController: UIViewController {
         addStackViewSubviews()
         view.addSubview(buttonStackView)
         view.addSubview(animationStepper)
+        view.addSubview(moveStepper)
     }
     
     private func addStackViewSubviews() {
@@ -152,6 +169,7 @@ class ViewController: UIViewController {
     
     private func configureConstraints() {
         constrainAnimationStepper()
+        constrainMovementStepper()
         constrainBlueSquare()
         constrainLeftButton()
         constraintRightButton()
@@ -165,6 +183,15 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             animationStepper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
             animationStepper.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+    }
+    
+    
+    private func constrainMovementStepper() {
+        moveStepper.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            moveStepper.topAnchor.constraint(equalTo: animationStepper.topAnchor, constant: 80),
+            moveStepper.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
