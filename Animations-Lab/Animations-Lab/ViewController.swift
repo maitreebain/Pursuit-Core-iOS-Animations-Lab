@@ -16,13 +16,20 @@ class ViewController: UIViewController {
         return view
     }()
     
+    lazy var animationStepper: UIStepper = {
+        let stepper = UIStepper()
+        stepper.minimumValue = 0.1
+        stepper.maximumValue = 5.0
+        stepper.value = 0.1
+        return stepper
+    }()
+    
     lazy var buttonStackView: UIStackView = {
        let buttonStack = UIStackView()
         buttonStack.axis = .horizontal
         buttonStack.alignment = .center
         buttonStack.distribution = .equalSpacing
         buttonStack.spacing = 30
-        //buttonStack.backgroundColor = .red
         return buttonStack
     }()
     
@@ -84,6 +91,11 @@ class ViewController: UIViewController {
         configureConstraints()
     }
     
+    @IBAction func stepperButtonPressed(_ stepper: UIStepper){
+        
+        
+    }
+    
     @IBAction func animateSquareLeft(sender: UIButton) {
         let oldOffet = blueSquareCenterXConstraint.constant
         blueSquareCenterXConstraint.constant = oldOffet + 50
@@ -141,6 +153,10 @@ class ViewController: UIViewController {
         constrainUpButton()
         constrainDownButton()
         constrainButtonStackView()
+    }
+    
+    private func constrainAnimationStepper() {
+        animationStepper.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func constrainUpButton() {
