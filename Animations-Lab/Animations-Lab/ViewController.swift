@@ -8,8 +8,11 @@
 
 import UIKit
 
-enum AnimationStyles: Int {
-    case
+enum AnimationStyles: String {
+    case curveLinear = "curveLinear"
+    case curveEaseIn = "curveEaseIn"
+    case curveEaseOut = "curveEaseOut"
+    case curveEaseInOut = "curveEaseInOut"
 }
 
 class ViewController: UIViewController {
@@ -42,6 +45,7 @@ class ViewController: UIViewController {
     
     var animationValue: Double = 0.3
     var movementValue: Double = 0.0
+    var animationStyles = [AnimationStyles.curveLinear.rawValue, AnimationStyles.curveEaseIn.rawValue, AnimationStyles.curveEaseOut.rawValue, AnimationStyles.curveEaseInOut.rawValue]
     
     lazy var animationPicker: UIPickerView = {
         let pickerView = UIPickerView()
@@ -213,7 +217,7 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             animationPicker.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor, constant: 80),
             animationPicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            animationPicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 20)
+            animationPicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
     }
     
@@ -270,7 +274,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return AnimationStyles.count
+        return animationStyles.count
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -278,14 +282,34 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return AnimationStyles[row]
+        return animationStyles[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let oneStyle = AnimationStyles[row]
-        currentStyle = oneStyle
+        let oneStyle = animationStyles[row]
         
+        switch oneStyle{
+        case "curveLinear":
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveLinear], animations: {
+                self.blueSquare.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }, completion: nil)
+        case "curveEaseIn":
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveEaseIn], animations: {
+                self.blueSquare.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            }, completion: nil)
+        case "curveEaseOut":
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveEaseOut], animations: {
+                self.blueSquare.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            }, completion: nil)
+        case "curveEaseInOut":
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveEaseInOut], animations: {
+                self.blueSquare.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+            }, completion: nil)
+        default:
+            return
+        }
         
     }
+    
     
 }
