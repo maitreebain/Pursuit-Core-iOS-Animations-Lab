@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum AnimationStyles: String {
+enum AnimationStyles: String, CaseIterable {
     case curveLinear = "curveLinear"
     case curveEaseIn = "curveEaseIn"
     case curveEaseOut = "curveEaseOut"
@@ -45,7 +45,6 @@ class ViewController: UIViewController {
     
     var animationValue: Double = 0.3
     var movementValue: Double = 0.0
-    var animationStyles = [AnimationStyles.curveLinear.rawValue, AnimationStyles.curveEaseIn.rawValue, AnimationStyles.curveEaseOut.rawValue, AnimationStyles.curveEaseInOut.rawValue]
     
     lazy var animationPicker: UIPickerView = {
         let pickerView = UIPickerView()
@@ -215,7 +214,7 @@ class ViewController: UIViewController {
     private func constrainAnimationPicker() {
         animationPicker.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            animationPicker.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor, constant: 80),
+            animationPicker.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor, constant: 40),
             animationPicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             animationPicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
@@ -274,7 +273,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return animationStyles.count
+        return AnimationStyles.allCases.count
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -282,11 +281,11 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return animationStyles[row]
+        return AnimationStyles.allCases[row].rawValue
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let oneStyle = animationStyles[row]
+        let oneStyle = AnimationStyles.allCases[row].rawValue
         
         switch oneStyle{
         case "curveLinear":
